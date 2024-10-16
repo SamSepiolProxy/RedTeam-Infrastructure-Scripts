@@ -77,6 +77,7 @@ func_install_letsencrypt(){
 
 func_check_env
 func_check_tools
+sudo service apache2 stop
 certbot_delete
 func_install_letsencrypt
 sudo service apache2 start
