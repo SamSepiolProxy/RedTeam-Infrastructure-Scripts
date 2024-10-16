@@ -74,10 +74,55 @@ func_install_letsencrypt(){
   fi
 }
 
+func_create_virtualhost() {
+cd /tmp
+cat > site.conf << EOF
+<VirtualHost *:80>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+</VirtualHost>
+<IfModule mod_ssl.c>
+  <VirtualHost *:443>
+    DocumentRoot /var/www/html
+    SSLEngine on
+    SSLCertificateFile      /etc/letsencrypt/live/$FIRST_DOMAIN/fullchain.pem
+    SSLCertificateKeyFile      /etc/letsencrypt/live/$FIRST_DOMAIN/privkey.pem
+    SSLCertificateChainFile   /etc/letsencrypt/live/$FIRST_DOMAIN/chain.pem
+    <FilesMatch "\.(cgi|shtml|phtml|php)$">
+        SSLOptions +StdEnvVars
+    </FilesMatch>
+    <Directory /usr/lib/cgi-bin>
+        SSLOptions +StdEnvVars
+    </Directory>
+  </VirtualHost>
+</IfModule>
+EOF
+
+cat > /etc/apache2/mods-enabled/ssl.conf << EOF
+<IfModule mod_ssl.c>
+        SSLRandomSeed startup builtin
+        SSLRandomSeed startup file:/dev/urandom 512
+        SSLRandomSeed connect builtin
+        SSLRandomSeed connect file:/dev/urandom 512
+        AddType application/x-x509-ca-cert .crt
+        AddType application/x-pkcs7-crl .crl
+        SSLPassPhraseDialog  exec:/usr/share/apache2/ask-for-passphrase
+        SSLSessionCache         shmcb:${APACHE_RUN_DIR}/ssl_scache(512000)
+        SSLSessionCacheTimeout  300
+        SSLCipherSuite HIGH:!aNULL
+        SSLProtocol -all +TLSv1 +TLSv1.1 +TLSv1.2
+</IfModule>
+EOF
+sudo cp /tmp/site.conf /etc/apache2/sites-available/site.conf
+rm /etc/apache2/sites-available/000-default.conf
+rm /etc/apache2/sites-available/default-ssl.conf
+}
 
 func_check_env
 func_check_tools
 sudo service apache2 stop
 certbot_delete
 func_install_letsencrypt
+func_create_virtualhost
 sudo service apache2 start
