@@ -8,9 +8,9 @@ The repository includes the following scripts:
 
 - **GoPhishService**: A script related to the GoPhish phishing framework.
 
-- **Hardening-Script.sh**: Automates the hardening process of a server by updating packages, enabling unattended updates, setting login banners, configuring SSH settings, installing security tools like `fail2ban` and `auditd`, and setting up a firewall using `ufw`. :contentReference[oaicite:0]{index=0}
+- **Hardening-Script.sh**: Automates the hardening process of a server by updating packages, enabling unattended updates, setting login banners, configuring SSH settings, installing security tools like `fail2ban` and `auditd`, and setting up a firewall using `ufw`.
 
-- **apache_gophish_https_redirector.sh**: Configures Apache to act as an HTTPS redirector for GoPhish campaigns. :contentReference[oaicite:1]{index=1}
+- **apache_gophish_https_redirector.sh**: Configures Apache to act as an HTTPS redirector for GoPhish campaigns.
 
 - **apache_https_redirector.sh**: Sets up Apache as an HTTPS redirector.
 
