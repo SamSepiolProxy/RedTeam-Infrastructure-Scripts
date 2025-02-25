@@ -88,7 +88,7 @@ apt install ufw -y
 ufw allow from (YourIP) to any port 22
 ufw allow from (YourIP) to any port 22
 ufw logging on
-ufw enable
+ufw --force enable
 systemctl enable ufw
 logger "Hardening: UFW enabled"
 logger "Hardening: Finished"
