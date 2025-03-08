@@ -1,6 +1,6 @@
-# RedTeamInfraScripts Repository
+# RedTeam-Infrastructure-Scripts Repository
 
-Welcome to the **RedTeamInfraScripts** repository by [SamSepiolProxy](https://github.com/SamSepiolProxy). This collection comprises scripts designed to deploy and manage Red Team infrastructure efficiently.
+Welcome to the *RedTeam-Infrastructure-Scripts** repository by [SamSepiolProxy](https://github.com/SamSepiolProxy). This collection comprises scripts designed to deploy and manage Red Team infrastructure efficiently.
 
 ## Contents
 
