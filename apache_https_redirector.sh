@@ -58,6 +58,7 @@ certbot_delete() {
 }
 
 func_install_apache(){
+apt-get update
 apt-get install apache2 -y
 a2enmod rewrite headers proxy proxy_http ssl cache
 a2dismod -f deflate
