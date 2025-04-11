@@ -59,7 +59,7 @@ func_install_letsencrypt(){
 
 func_create_virtualhost() {
 cd /tmp
-cat > 000-$domain.conf << EOF
+cat > site.conf << EOF
 <VirtualHost *:443>
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/html
@@ -104,10 +104,9 @@ cat > /etc/apache2/mods-enabled/ssl.conf << EOF
         SSLProtocol -all +TLSv1 +TLSv1.1 +TLSv1.2
 </IfModule>
 EOF
-a2ensite default-ssl.conf
-sudo cp /tmp/000-$domain.conf /etc/apache2/sites-available/000-default.conf
+sudo cp /tmp/site.conf /etc/apache2/sites-available/site.conf
+rm /etc/apache2/sites-available/000-default.conf
 rm /etc/apache2/sites-available/default-ssl.conf
-rm /etc/apache2/sites-enabled/default-ssl.conf
 }
 
 func_additional_apache_conf() {
@@ -116,6 +115,9 @@ echo "Update Update Apached Server Header, ServerTokens, and logging"
 sed -i -e 's/\(ServerTokens\s\+\)OS/\1Prod/g' /etc/apache2/conf-enabled/security.conf
 sed -i -e 's/\(ServerSignature\s\+\)On/\1Off/g' /etc/apache2/conf-enabled/security.conf
 echo "LogLevel alert rewrite:trace2" >> /etc/apache2/conf-enabled/security.conf
+a2dissite 000-default.conf
+a2dissite default-ssl.conf
+a2ensite site.conf
 }
 
 func_blacklist_rules() {
