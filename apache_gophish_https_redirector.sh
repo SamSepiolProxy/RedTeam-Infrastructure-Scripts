@@ -34,12 +34,7 @@ func_check_tools(){
 func_install_apache(){
 apt-get update
 apt-get install apache2 -y
-a2enmod proxy > /dev/null 
-a2enmod proxy_http > /dev/null
-a2enmod proxy_balancer > /dev/null
-a2enmod lbmethod_byrequests > /dev/null
-a2enmod rewrite > /dev/null
-a2enmod ssl > /dev/null
+a2enmod rewrite headers proxy proxy_http ssl cache lbmethod_byrequests proxy_balancer
 sed -i "s|Listen 80||g" /etc/apache2/ports.conf
 a2dismod -f deflate
 service apache2 reload
