@@ -62,6 +62,7 @@ certbot_delete() {
 }
 
 func_install_apache(){
+apt-get update
 apt-get install apache2 -y
 a2enmod rewrite headers ssl cache
 a2dismod -f deflate
@@ -133,8 +134,6 @@ echo "Update Update Apached Server Header, ServerTokens, and logging"
 sed -i -e 's/\(ServerTokens\s\+\)OS/\1Prod/g' /etc/apache2/conf-enabled/security.conf
 sed -i -e 's/\(ServerSignature\s\+\)On/\1Off/g' /etc/apache2/conf-enabled/security.conf
 echo "LogLevel alert rewrite:trace2" >> /etc/apache2/conf-enabled/security.conf
-a2dissite 000-default.conf
-a2dissite default-ssl.conf
 a2ensite site.conf
 }
 
